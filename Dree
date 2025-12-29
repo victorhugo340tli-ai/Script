@@ -1,0 +1,161 @@
+-- DEX HUB (UI DEMO / EDUCACIONAL)
+-- Autor: Exemplo educativo
+
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player.PlayerGui)
+gui.Name = "DexHub"
+
+-- CORES
+local AMARELO = Color3.fromRGB(230, 255, 80)
+local VERMELHO = Color3.fromRGB(255, 60, 60)
+local VERDE = Color3.fromRGB(60, 255, 60)
+local CINZA = Color3.fromRGB(40,40,40)
+
+-- HEADER
+local header = Instance.new("Frame", gui)
+header.Size = UDim2.new(1, 0, 0, 60)
+header.BackgroundColor3 = AMARELO
+
+local title = Instance.new("TextLabel", header)
+title.Size = UDim2.new(1,0,1,0)
+title.Text = "DEX HUB"
+title.TextScaled = true
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.SourceSansBold
+
+-- SIDEBAR
+local sidebar = Instance.new("Frame", gui)
+sidebar.Position = UDim2.new(0,0,0,60)
+sidebar.Size = UDim2.new(0,160,1,-60)
+sidebar.BackgroundColor3 = AMARELO
+
+-- MAIN AREA
+local main = Instance.new("Frame", gui)
+main.Position = UDim2.new(0,170,0,70)
+main.Size = UDim2.new(1,-190,1,-90)
+main.BackgroundColor3 = AMARELO
+main.BorderSizePixel = 0
+main.Name = "Main"
+
+-- FUNÇÃO DE LIMPAR TELA
+local function clearMain()
+	for _,v in pairs(main:GetChildren()) do
+		v:Destroy()
+	end
+end
+
+-- BOTÃO PADRÃO
+local function createButton(text, posY, callback)
+	local btn = Instance.new("TextButton", sidebar)
+	btn.Size = UDim2.new(1,-20,0,40)
+	btn.Position = UDim2.new(0,10,0,posY)
+	btn.Text = text
+	btn.BackgroundColor3 = CINZA
+	btn.TextColor3 = Color3.new(1,1,1)
+	btn.Font = Enum.Font.SourceSansBold
+	btn.TextScaled = true
+	btn.MouseButton1Click:Connect(callback)
+end
+
+------------------------------------------------
+-- ESP MENU
+------------------------------------------------
+local function espMenu()
+	clearMain()
+
+	local espRed = Instance.new("TextButton", main)
+	espRed.Size = UDim2.new(0,200,0,50)
+	espRed.Position = UDim2.new(0,20,0,20)
+	espRed.Text = "ESP VERMELHO (DEMO)"
+	espRed.BackgroundColor3 = VERMELHO
+	espRed.TextScaled = true
+
+	local espGreen = Instance.new("TextButton", main)
+	espGreen.Size = UDim2.new(0,200,0,50)
+	espGreen.Position = UDim2.new(0,20,0,90)
+	espGreen.Text = "ESP VERDE (DEMO)"
+	espGreen.BackgroundColor3 = VERDE
+	espGreen.TextScaled = true
+
+	espRed.MouseButton1Click:Connect(function()
+		warn("ESP Vermelho ativado (apenas visual / demo)")
+	end)
+
+	espGreen.MouseButton1Click:Connect(function()
+		warn("ESP Verde ativado (apenas visual / demo)")
+	end)
+end
+
+------------------------------------------------
+-- FUNÇÕES
+------------------------------------------------
+local function functionMenu()
+	clearMain()
+
+	local fly = Instance.new("TextButton", main)
+	fly.Size = UDim2.new(0,220,0,50)
+	fly.Position = UDim2.new(0,20,0,20)
+	fly.Text = "VOAR (SIMULADO)"
+	fly.BackgroundColor3 = CINZA
+	fly.TextColor3 = Color3.new(1,1,1)
+	fly.TextScaled = true
+
+	local tp = Instance.new("TextButton", main)
+	tp.Size = UDim2.new(0,220,0,50)
+	tp.Position = UDim2.new(0,20,0,90)
+	tp.Text = "TELEPORTE (CLICK)"
+	tp.BackgroundColor3 = CINZA
+	tp.TextColor3 = Color3.new(1,1,1)
+	tp.TextScaled = true
+
+	local enabled = true
+
+	local switch = Instance.new("TextButton", main)
+	switch.Size = UDim2.new(0,220,0,50)
+	switch.Position = UDim2.new(0,20,0,160)
+	switch.Text = "DESATIVAR FUNÇÕES"
+	switch.BackgroundColor3 = VERMELHO
+	switch.TextScaled = true
+
+	switch.MouseButton1Click:Connect(function()
+		enabled = not enabled
+		switch.Text = enabled and "DESATIVAR FUNÇÕES" or "ATIVAR FUNÇÕES"
+		switch.BackgroundColor3 = enabled and VERMELHO or VERDE
+	end)
+
+	fly.MouseButton1Click:Connect(function()
+		if enabled then
+			print("Modo voar ativado (demo)")
+		end
+	end)
+
+	tp.MouseButton1Click:Connect(function()
+		if enabled then
+			print("Teleporte ao clicar (demo)")
+		end
+	end)
+end
+
+------------------------------------------------
+-- INFO
+------------------------------------------------
+local function infoMenu()
+	clearMain()
+
+	local info = Instance.new("TextLabel", main)
+	info.Size = UDim2.new(1,-40,1,-40)
+	info.Position = UDim2.new(0,20,0,20)
+	info.TextWrapped = true
+	info.TextYAlignment = Enum.TextYAlignment.Top
+	info.Text = "DEX HUB\n\nScript educacional feito para aprendizado de UI no Roblox.\n\n• ESP demonstrativo\n• Funções simuladas\n• Interface estilo HUB\n\nCriado para estudos."
+	info.BackgroundTransparency = 1
+	info.TextScaled = true
+	info.Font = Enum.Font.SourceSans
+end
+
+------------------------------------------------
+-- BOTÕES LATERAIS
+------------------------------------------------
+createButton("ESP", 20, espMenu)
+createButton("Função", 70, functionMenu)
+createButton("Info", 120, infoMenu)
